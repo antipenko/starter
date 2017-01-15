@@ -33,5 +33,5 @@ gulp.task('serve',function () {
 gulp.task('default', ['serve', 'sass'], function() {
 	gulp.watch('app/scss/**/*.scss', ['sass']);
 	gulp.watch("app/*.html").on("change", reload);
-    gulp.watch('js/**/*.js').on("change", reload); // Наблюдение за JS файлами в папке js
+    gulp.watch('app/js/**/*.js').on("change", reload); // Наблюдение за JS файлами в папке js
 });
