@@ -139,7 +139,7 @@ gulp.task('style:build', function () {
   gulp.src(path.src.style)
       .pipe(sourcemaps.init())
       .pipe(sass({
-        outputStyle: 'compressed',
+        // outputStyle: 'compressed',
         precision: 8,
         //sourceMap: true,
         //errLogToConsole: true
@@ -183,9 +183,55 @@ gulp.task('favicons:build', function() {
       .pipe(gulp.dest(path.build.html))
 });
 
+/* style lint*/
+
+// Stylelint config rules
+var stylelintConfig = {
+  "rules": {
+    "block-no-empty": true,
+    "color-no-invalid-hex": true,
+    "declaration-colon-space-after": "always",
+    "declaration-colon-space-before": "never",
+    "function-comma-space-after": "always",
+    "function-url-quotes": "double",
+    "media-feature-colon-space-after": "always",
+    "media-feature-colon-space-before": "never",
+    "media-feature-name-no-vendor-prefix": true,
+    "max-empty-lines": 5,
+    "number-leading-zero": "never",
+    "number-no-trailing-zeros": true,
+    "property-no-vendor-prefix": true,
+    "rule-no-duplicate-properties": true,
+    "declaration-block-no-single-line": true,
+    "rule-trailing-semicolon": "always",
+    "selector-list-comma-space-before": "never",
+    "selector-list-comma-newline-after": "always",
+    "selector-no-id": true,
+    "string-quotes": "double",
+    "value-no-vendor-prefix": true
+  }
+}
+
+
+
+gulp.task('lint-css', function lintCssTask() {
+  const gulpStylelint = require('gulp-stylelint');
+ 
+  return gulp
+    .src('build/**/*.css')
+    .pipe(gulpStylelint({
+      reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }));
+});
+
+/* style lint*/
+
 gulp.task('build', [
   'html:build',
   'style:build',
+  'lint-css',
   'js:build',
   'image:build',
   'fonts:build',
