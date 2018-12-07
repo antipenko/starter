@@ -9,12 +9,14 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     imagemin = require('gulp-imagemin'),
+    postcss = require('gulp-postcss'),
     pngquant = require('imagemin-pngquant'),
     rimraf = require('rimraf'),
     browserSync = require("browser-sync"),
     notify = require('gulp-notify'),
     argv = require('yargs').argv,
     $if = require('gulp-if'),
+    stylelint = require('gulp-stylelint'),
     reload = browserSync.reload;
 
 // Check for --p flag
@@ -45,7 +47,6 @@ var path = {
     fonts: 'src/assets/fonts/**/*.*'
   },
   clean: './build',
-  foundation: './node_modules/foundation-sites/',
   motionui: './node_modules/motion-ui/src',
   whatinput: './node_modules/what-input/dist/',
   slick: './node_modules/slick-carousel/slick',
@@ -62,13 +63,8 @@ var config = {
   tunnel: false,
   host: 'localhost',
   port: 9000,
-  logPrefix: "limpopo"
+  logPrefix: "antipa-log"
 };
-
-var jsonTitle = {
-  'index': 'Limpopo',
-  'contacts': 'Контакты'
-}
 
 
 gulp.task('webserver', function () {
@@ -211,19 +207,21 @@ var stylelintConfig = {
     "value-no-vendor-prefix": true
   }
 }
-
-
-
-gulp.task('lint-css', function lintCssTask() {
-  const gulpStylelint = require('gulp-stylelint');
- 
-  return gulp
-    .src('build/**/*.css')
-    .pipe(gulpStylelint({
-      reporters: [
-        {formatter: 'string', console: true}
-      ]
+gulp.task('lint-scss', () => {
+  return gulp.src('src/**/*.scss')
+    .pipe(stylelint({
+      failAfterError: false, // disable fail after error
+      reporters: [{
+        formatter: 'string',
+        console: true
+      }]
     }));
+});
+
+gulp.task('lint', function(){
+  runseq(
+    'lint-scss'
+  );
 });
 
 /* style lint*/
