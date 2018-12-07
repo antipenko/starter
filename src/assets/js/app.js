@@ -3,12 +3,11 @@
 // require what-input.min.js
 
 //=require slick.min.js
-//=require lightbox.js
 
-//================ limpopo code ================//
+//================ code ================//
 
 ;(function ($) {
     $(document).ready(function () {
-
+        console.log('testhdbf');
     })
 })(jQuery);
